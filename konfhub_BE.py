@@ -1,5 +1,6 @@
 import requests
 from pprint import pprint
+import itertools
 
 conferences=[]
 duplicates=[]
@@ -39,18 +40,15 @@ print("Duplicates: ", duplicates)
 
 print('#'*89)
 print('printing semantically similar conferences.....')
-bloc=[]
-bloc+=response.json()['paid']
-bloc+=response.json()['free']
-SSconf=[]
-for conf in bloc:
-  # i, j, k, l, m='confStartDate', 'city', 'venue', 'entryType', 'confUrl'
-  if(bloc.count(conf['confUrl'])>1):
-    # print(conf['confName'])
-    SSconf.append(conf['confName'])
 
-print(SSconf if len(SSconf)!=0 else "No such conferences.")
-
-
-
-
+import pandas as pd
+df_free=pd.DataFrame(response.json()['free'])
+df_paid=pd.DataFrame(response.json()['paid'])
+df=pd.concat([df_free, df_paid])
+# can upd8 the groupby fields as per requirement
+grouped_df=df.groupby(['city'], as_index=False) 
+#df.groupby(['city', 'venue'])
+for name_of_the_group, group in grouped_df:
+   pprint (name_of_the_group)
+   pprint (group['confName'])
+   print('\n')
