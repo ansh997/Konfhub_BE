@@ -25,10 +25,10 @@ response = requests.get(url)
 # print(response.json()['free'][0])
 
 for obj in response.json()['free']:
-  s=" ".join(obj[i] for i in parameters)
+  s=", ".join(obj[i] for i in parameters)
   conferences.append(s)
 for obj in response.json()['paid']:
-  s=" ".join(obj[i] for i in parameters)
+  s=", ".join(obj[i] for i in parameters)
   conferences.append(s)
 
 printConf(conferences)
